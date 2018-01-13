@@ -1,0 +1,77 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="data-source.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="card-layout">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .card{display: inline-block}
+      .card img{ width: 100%; height: 554px}
+      .shopnw{ background: yellowgreen; color: #fff};
+      .shopnw a{ color: #fff; text-decoration: none}
+      #mensformalshirt{ width: 23%;}
+      #menstshirt{width: 66%;}
+      #menstshirt img{ width: 100%}
+      #mensformalshirt img{ width: 100%}
+      #mensjeans{width: 95%}
+      #menscasualshirt,#mensinnerwear,#mensjacket{width: 27%}
+    </style>
+    <data-source>
+      <template><h2>{{cardData.header}}</h2></template>
+      </data-source>
+    <h2>{{cardData.header}}</h2>
+    <template is="dom-repeat" items="{{cardData.data}}" as="cardData">
+    <div class="card" id="{{cardData.sku}}">
+      <img src="{{cardData.image}}">
+    <h1>{{cardData.title}}</h1>
+    <span>Price: {{cardData.price}}</span>
+    <p>{{cardData.description}}</p>
+    <paper-button raised class="shopnw"><a name="gird" href="[[rootPath]]data-entry">Add to Cart</a></paper-button>
+
+    </div>
+  </template> 
+  <iron-ajax auto url="/data/mydata.json" params='{}' handle-as="json" on-response="getProductData" debounce-duration="300"></iron-ajax>
+  </template>
+
+  <script>
+    class CardLayout extends Polymer.Element {
+      static get is() { return 'card-layout'; }
+
+      static get properties() {
+        return {
+          ProductData: {
+            type: Object,
+            value: {}
+          }
+        }
+      };
+
+     
+      getProductData(event, Request) {
+        this.ProductData = Request.response.products;
+        this.cardData = this.ProductData.card
+      }
+        
+    }
+    
+
+    window.customElements.define(CardLayout.is, CardLayout);
+  </script>
+</dom-module>

@@ -1,0 +1,117 @@
+{
+	"products": {
+		"gird": {
+			"header": "Gird View",
+			"tableCol": [{
+				"Productname": "Product Name"
+			}],
+			"girdData": [{
+					"name": "Mens+Formal+Shirts",
+					"sku": "mensformalshirt",
+					"title": "Mens Formal Shirts",
+					"price": 150,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensformalshirt.jpg"
+				},
+				{
+					"name": "Mens+T-Shirts",
+					"sku": "menstshirtgird",
+					"title": "Mens T-Shirts",
+					"price": 300,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/menstshirtgird.jpg"
+				},
+				{
+					"name": "Mens+Jeans",
+					"sku": "mensjeansgird",
+					"title": "Mens Jeans",
+					"price": 650,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensjeansgird.jpg"
+				},
+				{
+					"name": "Mens+Casual+Shirts",
+					"sku": "menscasualshirt",
+					"title": "Mens Casual Shirts",
+					"price": 400,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/menscasualshirt.jpg"
+				},
+				{
+					"name": "Mens+Inner+Wear",
+					"sku": "mensinnerwear",
+					"title": "Mens Inner Wear",
+					"price": 65,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensinnerwear.jpg"
+				},
+				{
+					"name": "Mens+Jacket",
+					"sku": "mensjacket",
+					"title": "Mens Jacket",
+					"price": 1500,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensjacket.jpg"
+				}
+			]
+		},
+
+
+		"card": {
+			"header": "Card View",
+
+
+			"data": [{
+					"name": "Mens+Formal+Shirts",
+					"sku": "mensformalshirt",
+					"title": "Mens Formal Shirts",
+					"price": 150,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed .",
+					"image": "data/images/mensformalshirt.jpg"
+				},
+				{
+					"name": "Mens+T-Shirts",
+					"sku": "menstshirt",
+					"title": "Mens T-Shirts",
+					"price": 300,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/menstshirt.jpg"
+				},
+				{
+					"name": "Mens+Jeans",
+					"sku": "mensjeans",
+					"title": "Mens Jeans",
+					"price": 650,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensjeans.jpg"
+				},
+				{
+					"name": "Mens+Casual+Shirts",
+					"sku": "menscasualshirt",
+					"title": "Mens Casual Shirts",
+					"price": 400,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/menscasualshirt.jpg"
+				},
+				{
+					"name": "Mens+Inner+Wear",
+					"sku": "mensinnerwear",
+					"title": "Mens Inner Wear",
+					"price": 65,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensinnerwear.jpg"
+				},
+				{
+					"name": "Mens+Jacket",
+					"sku": "mensjacket",
+					"title": "Mens Jacket",
+					"price": 1500,
+					"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus nulla sed mauris rutrum finibus. Curabitur egestas maximus facilisis. Integer eu euismod quam.",
+					"image": "data/images/mensjacket.jpg"
+				}
+			]
+
+
+		}
+	}
+}

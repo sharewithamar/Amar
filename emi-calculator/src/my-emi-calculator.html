@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="emi-calculator">
+  <template>
+    <style include="shared-styles">
+        
+        #loanAmount{ width: 80% !important}
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .calcemi{ background: #4A148C; color: #fff}
+      .slider-input{width: 300px !important;}
+      .newwidth{ width: 80%}
+    </style>
+
+    <div class="card">
+
+        <iron-form>
+            <form>
+
+                    <p class="title">Loan Amount</p>
+                    <paper-slider id="loanAmount" pin snaps max="10000000" max-markers="1000000" step="1000000" value="{{loanAmount}}" editable class="newwidth"></paper-slider>
+                    <!-- <paper-input value="{{loanAmount}}" name="loanAmount" id="loanAmount" label="Enter the Loan Amount" allowed-pattern="[0-9]" char-counter minlength="6" maxlength="7" required auto-validate error-message="Please fill this field"></paper-input> -->
+                <paper-input value="{{interest}}" name="interest" id="interest" label="Interest Rate" allowed-pattern="[-+]?[0-9]*\.?[0-9]*" char-counter minlength="4" maxlength="4" required auto-validate error-message="Please fill this field"></paper-input>
+                
+                <p>Loan Tensure</p><!-- <paper-input value="{{loanTensure}}" name="loanTensure" id="loanTensure" label="Loan Tenure" allowed-pattern="[0-9]" char-counter required auto-validate error-message="Please fill this field"></paper-input> -->
+                <paper-slider id="loanTensure" pin snaps max="300" max-markers="12" step="12" value="{{loanTensure}}" editable class="newwidth"></paper-slider>
+                
+                <paper-button rasied class="calcemi" on-click="calculateemi">Calculate My EMI</paper-button>
+            </form>
+        </iron-form>
+
+        <p>Loan EMI: {{emitopay}}</p>
+      
+    </div>
+  </template>
+
+  <script>
+    class EmiCalculator extends Polymer.Element {
+      static get is() { return 'emi-calculator'; }
+
+      calculateemi(){
+
+          this.loanamount = this.loanAmount;
+          this.interestrate = this.interest;
+          this.loantensure = this.loanTensure;
+            this.rateofinterest = this.interestrate/12/100;
+            this.totalinterest =  this.loanamount/this.rateofinterest*100
+            console.log(this.loanamount)
+            console.log(this.interestrate)
+            console.log(this.loantensure)
+            
+            
+            this.emiamount = this.loanamount*this.rateofinterest*Math.pow(1 + this.rateofinterest,this.loantensure)/(Math.pow(1 + this.rateofinterest,this.loantensure) - 1)
+            this.emitopay = Math.trunc(this.emiamount)
+          
+      }
+    }
+
+    window.customElements.define(EmiCalculator.is, EmiCalculator);
+  </script>
+</dom-module>

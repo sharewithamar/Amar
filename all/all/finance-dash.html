@@ -1,0 +1,342 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/highcharts-chart/highcharts-chart.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="finance-dash">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+
+      .popupNewBodyOuter {
+        padding: 15px;
+      }
+
+      .popupNewBody {
+        padding: 25px;
+        height: 200px;
+        overflow: auto;
+        margin-bottom: 20px;
+      }
+
+      .popupContainer {
+        width: 50%;
+        margin: 0px auto;
+      }
+
+      .newHeader {
+        word-wrap: break-word;
+        white-space: normal;
+        margin-top: 0px;
+      }
+
+      .floatRight {
+        float: right;
+      }
+
+      .buttonPaper {
+        background: #5c6bc0;
+        margin-bottom: 20px;
+      }
+      svg {
+    width: 100% !important;
+    height: 400;
+}
+.chartArea{width: 22%; float:left; background: #fff; padding:0px 20px 20px 20px; margin-top: 25px}
+/*New Section*/
+.news .cardcontent a{ color: #B71C1C; text-decoration: none; font-size: 20px}
+.news .cardcontent a:hover{color:#E53935}
+.news .cardcontent p,.news .cardcontent ul li{ font-size: 14px}
+.oldnews p,.oldnews ul li{font-size: 14px}
+.oldnews  a{ color: #B71C1C; text-decoration: none; font-size: 13px}
+.oldnews a:hover{color:#E53935}
+.oldnews .card{ background: #E3F2FD}
+.oldnews .title{ background: #0D47A1}
+.oldnews .title h3{ margin:0px; color: #fff; padding: 5px 10px}
+
+/*Chart Area*/
+.chartArea .title{ background: #1B5E20;}
+.chartArea .title h3{color: #fff; padding: 5px 10px}
+.chartArea  .marketActions .title{ background: #FF5722}
+.chartArea  .marketActions .title h1{color: #fff; padding: 5px 10px;font-size: 1.17em;}
+.chartArea  .globalMarkets .title{ background: #C51162}
+.chartArea  .globalMarkets .title h1{color: #fff; padding: 5px 10px;font-size: 1.17em;}
+.chartArea  .mostActive .title{ background: #1A237E}
+.chartArea  .mostActive .title h1{color: #fff; padding: 5px 10px;font-size: 1.17em;}
+.chartArea  .marketActions table{ border: 1px solid #CFD8DC;border-collapse: collapse}
+.chartArea  .marketActions table th { color: #000; text-align: left; font-size: 14px;padding: 10px 15px;border-collapse: collapse; background: #B0BEC5}
+.chartArea  .marketActions table tbody td{color: #000; text-align: left; font-size: 13px; padding: 10px;border-top: 1px solid #CFD8DC; border-collapse: collapse}
+
+.chartArea  .globalMarkets table{ border: 1px solid #CFD8DC;border-collapse: collapse}
+.chartArea  .globalMarkets table th { color: #000; text-align: left; font-size: 14px;padding: 10px 3px;border-collapse: collapse; background: #B0BEC5}
+.chartArea  .globalMarkets table tbody td{color: #000; text-align: left; font-size: 13px; padding: 10px;border-top: 1px solid #CFD8DC; border-collapse: collapse}
+
+.chartArea  .mostActive table{ border: 1px solid #CFD8DC;border-collapse: collapse}
+.chartArea  .mostActive table th { color: #000; text-align: left; font-size: 14px;padding: 10px 15px;border-collapse: collapse; background: #B0BEC5}
+.chartArea  .mostActive table tbody td{color: #000; text-align: left; font-size: 13px; padding: 10px;border-top: 1px solid #CFD8DC; border-collapse: collapse}
+ 
+    </style>
+
+    <!--<div class="card">
+      <div class="circle">1</div>
+      <h1>View One</h1>
+      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>-->
+
+    <div>
+      <div style="width: 40%; float:left; padding-right: 15px !important;" class="card news">
+        <paper-card heading="topnews">
+          <div class="cardcontent">
+            <div>
+              <span>
+                <b>
+                  <a href="#">[[latestNews.newHeader]]</a>
+                </b>
+              </span>
+            </div>
+            <div>
+              <p>[[latestNews.Desc]]</p>
+            </div>
+            <div>
+              <span>
+                <img src="../images/fandcues_markets-378x213.jpg" width="100%" height="100%">
+              </span>
+            </div>
+            <ul>
+              <template is="dom-repeat" items="{{latestNews.newsList}}">
+                <li>{{item}}</li>
+              </template>
+            </ul>
+          </div>
+        </paper-card>
+      </div>
+    </div>
+
+    <div style="width: 30%; float:left;" class="oldnews">
+      <template is="dom-repeat" items="{{dashboardData.news}}">
+        <div class="card">
+          <div class="title">
+          <h3>[[item.altHead]]</h3>
+        </div>
+          <div>
+            <p>[[item.Desc]]</p>
+          </div>
+          <ul>
+            <template is="dom-repeat" items="{{item.newsList}}">
+              <li>{{item}}</li>
+            </template>
+          </ul>
+          <a href="#" on-click="openModalData" id="{{item.newsID}}">Read More</a>
+        </div>
+      </template>
+    </div>
+
+    <!--<ul>
+      <h1>New Header</h1>
+      <template is="dom-repeat" items="{{dashboardData.news}}">        
+        <li class="card">          
+          <a href="#" on-click="openModalData" id="{{item.newsID}}">{{item.newHeader}}</a>
+        </li>       
+      </template>
+    </ul>-->
+
+    <paper-dialog id="modal" class="popupContainer">
+      <div class="popupNewBodyOuter">
+        <h1 class="newHeader">[[popupData.newHeader]]</h1>
+        <paper-dialog-scrollable>
+          <div class="popupNewBody">
+            <!--<img src="" alt="" />-->
+            <template is="dom-repeat" items={{popupData.DescPopup}}>
+              <p>{{item}}</p>
+            </template>
+          </div>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus class="floatRight buttonPaper">Close</paper-button>
+        </div>
+      </div>
+    </paper-dialog>
+
+    <div class="chartArea">
+      <div >
+        <div class="title">
+          <h3>{{marketActions.header}}</h3>
+        </div>
+        <highcharts-chart type="spline" data='{{marketActions.chart}}' title='{{marketActions.header}}' x-zoom x-label="X Axis" y-label="Y Axis"></highcharts-chart>
+      </div>
+      <div class="tableData">
+
+        <div class="marketActions">
+
+          <div class="title">
+            <h1>{{marketActions.header}}</h1>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Index</th>
+                <th>Price</th>
+                <th>Change</th>
+                <th>% Chg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template is="dom-repeat" items="{{marketActions.table}}" as="marketdata">
+                <tr>
+                  <td>{{marketdata.index}}</td>
+                  <td>{{marketdata.price}}</td>
+                  <td>{{marketdata.change}}</td>
+                  <td>{{marketdata.perChg}}</td>
+                </tr>
+              </template>
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+
+
+      </div>
+
+      <div class="globalMarkets">
+
+        <div class="title">
+          <h1>{{globalMarkets.header}}</h1>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Change</th>
+              <th>% Chg</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="{{globalMarkets.table}}" as="marketdata">
+              <tr>
+                <td>{{marketdata.indices}}</td>
+                <td>{{marketdata.date}}</td>
+                <td>{{marketdata.price}}</td>
+
+                <td>{{marketdata.Change}}</td>
+                <td>{{marketdata.perChg}}</td>
+              </tr>
+            </template>
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="mostActive">
+
+        <div class="title">
+          <h1>{{mostActive.header}}</h1>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Price</th>
+              <th>Change</th>
+              <th>% Chg</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="{{mostActive.table}}" as="marketdata">
+              <tr>
+                <td>{{marketdata.company}}</td>
+                <td>{{marketdata.price}}</td>
+
+                <td>{{marketdata.Change}}</td>
+                <td>{{marketdata.perChg}}</td>
+              </tr>
+            </template>
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+
+
+    </div>
+    </div>
+
+    </div>
+
+    <iron-ajax auto url="/data/financeDash.json" params='{}' handle-as="json" on-response="getDashboardData" debounce-duration="300"></iron-ajax>
+
+
+  </template>
+
+  <script>
+    class FinanceDash extends Polymer.Element {
+      static get is() { return 'finance-dash'; }
+
+      static get properties() {
+        return {
+          dashboardData: {
+            type: Object,
+            value: {}
+          },
+          popupData: {
+            type: Object,
+            value: {}
+          }
+        }
+      }
+
+      openModalData(e) {
+        let eleId = e.model.item.newsID;
+        for (var itemData in this.dashboardData.news) {
+          if (this.dashboardData.news[itemData].newsID === eleId) {
+            this.popupData = this.dashboardData.news[itemData];
+          }
+        }
+        console.log(this.popupData);
+        this.$.modal.open();
+        e.preventDefault();
+      }
+
+      getDashboardData(event, Request) {
+        this.dashboardData = Request.response.data;
+        this.latestNews = this.dashboardData.news[0];
+        this.marketActions = Request.response.data.marketActions;
+        this.mostActive = Request.response.data.mostActive;
+        this.globalMarkets = Request.response.data.globalMarkets;
+        //this.updated= this.news.shift();      
+      }
+
+    }
+
+
+
+    window.customElements.define(FinanceDash.is, FinanceDash);
+  </script>
+</dom-module>

@@ -1,0 +1,164 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-styles.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/chart-elements/chart-elements.html">
+<script src="../bower_components/chart.js/dist/Chart.js"></script>
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<link rel="import" href="shared-styles.html">
+<dom-module id="my-tradeviewgrid">
+    <template>
+        <style include="vaadin-grid-styles shared-styles">
+            .header{ color:red; background: linear-gradient(var(--paper-blue-400), var(--paper-blue-900))}
+            .charts-styles{ float:left; width: 25%}
+        chart-line{ width: 100% !important}
+        .table{ width: 57%; float:left;}
+        </style>
+        <div class="card table">
+        <vaadin-grid items="{{tradeViewGridData}}">
+            <vaadin-grid-column>
+                <template class="header">Trading Symbol</template>
+                <template><a href="#" on-click="getData">[[item.symbol]]</a></template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Quantity</template>
+                <template>[[item.qty]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Bid Rate</template>
+                <template>[[item.bidRate]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Ask Rate</template>
+                <template>[[item.askRate]]</template>
+            </vaadin-grid-column>
+        </vaadin-grid>
+    </div>
+        <div class="card charts-styles"> 
+                <chart-line data="{{data}}"></chart-line>
+        </div>
+       
+
+        <iron-ajax url="../data/employee.json" id="chartData" handleas="json" on-response="showChartData" >
+
+        </iron-ajax>
+    </template>
+    <script>
+        class MyTradeviewgrid extends Polymer.Element{
+            static get is(){ return 'my-tradeviewgrid'; }
+            static get properties(){
+                return {
+                    tradeViewGridData:{
+                        type:Array,
+                        value: ()=>[
+                            {symbol:"HCL", id: 10, qty:100, bidRate:"100.00", askRate:"150.00"},
+                            {symbol:"TCS", id: 10, qty:10, bidRate:"90.00", askRate:"150.00"},
+                            {symbol:"ASC",  id: 10, qty:200, bidRate:"80.00", askRate:"150.00"},
+                            {symbol:"HCL", id: 10,  qty:150, bidRate:"110.00", askRate:"150.00"},
+                            {symbol:"HCL",  id: 10, qty:200, bidRate:"220.00", askRate:"150.00"},
+                            {symbol:"XYZ", id: 10,  qty:60, bidRate:"100.00", askRate:"150.00"}
+                        ]
+                    }
+                }
+            }
+            /*Chart */
+constructor(){super()
+    this.data = {
+        labels: ["!2:00", "1:00", "14:00", "23:00", "11:00", "12:00", "12:30"],
+        datasets: [
+          {
+            label: "",
+            backgroundColor: "transparent",
+            borderColor: "rgba(220,220,220,1)",
+            borderWidth: 0,
+            pointBackgroundColor: "rgba(220,220,220,1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            data: []
+          },
+          {
+            label: "Trade Data",
+            backgroundColor: "rgba(151,187,205,0.2)",
+            borderColor: "rgba(151,187,205,1)",
+            borderWidth: 2,
+            pointBackgroundColor: "rgba(151,187,205,1)",
+            pointBorderColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHoverBorderColor: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 86, 27, 90]
+          }
+        ]
+      };
+};
+            getData(e) {
+                debugger;
+                var symbolId= e.model.item.id, 
+                    id = this.$.chartData;
+                    id.generateRequest();
+            }
+
+            showChartData(event, Request) {
+                debugger;
+                this._computeGraph(Request.response.data.AskPrices);
+            }
+
+            _computeGraph(data) {debugger;
+                var label = [];
+                var price = [];
+                data.forEach(function(element) {
+                    label.push(this._computeDataTime(element.Time));
+                    price.push(element.AskPrice);
+                }, this);
+                this._genarateLineChart(label, price);
+            }
+            _computeDataTime(dateString) {
+                if (dateString) {
+                    return moment(dateString, 'YYYY-MM-DDThh:mm:aaZ').format('M/DD/YYYY h:mm a');
+                }
+                return dateString;
+            }
+
+     _genarateLineChart(label, price, labelName) {
+                if (this.lineChart != undefined) this.lineChart.destroy();
+                var ctx = this.$.canvas.getContext('2d');
+                this.lineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: label,
+                        datasets: [{
+                            pointRadius: 0,
+                            label: labelName,
+                            backgroundColor: "rgba(111,124,186,0.1)",
+                            borderColor: "rgba(111,124,186,1)",
+                            borderWidth: 2,
+                            data: price
+                        }]
+                    },
+                    options: {
+                        animation: false,
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                gridLines: {
+                                    display: false
+                                }
+                            }],
+                            yAxes: [{
+                                gridLines: {
+                                    display: false
+                                }
+                            }]
+                        }
+                    }
+
+                });
+            }
+            }
+        
+        window.customElements.define(MyTradeviewgrid.is, MyTradeviewgrid);
+    </script>
+</dom-module>

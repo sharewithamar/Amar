@@ -1,0 +1,53 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/paper-styles/shadow.html">
+<link rel="import" href="../../../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+
+<dom-module id="personal-info">
+    
+
+    <template>
+            <style is="custom-style" include="demo-pages-shared-styles">
+
+                    paper-dropdown-menu, paper-input{ width: 49% !important; display: inline-block !important}
+                    paper-listbox {
+    width: 250px;
+  }
+  paper-item{ width: 100%; float: left; padding:10px 0px 10px 5px}
+  paper-dropdown-menu {
+    margin: auto;
+    display: block;
+  }
+  h3{ margin: 0px; color: #B71C1C}
+  .personal{ border: 1px solid #FFCDD2; padding: 20px; margin-top: 20px}
+                    </style>
+                    <div class="personal">
+                    <h3>Personal Details</h3>
+            <paper-input type="text" name="fname" required label="First Name" value="{{firstname}}" auto-validate error-message="Please fill the Firstname"></paper-input>
+            <paper-input type="text" name="lname" required label="Last Name" value="{{lastname}}" auto-validate error-message="Please fill the Lastname"></paper-input>
+            <paper-input type="date" name="dob" required label="Date of Birth" value="{{dob}}"></paper-input>
+            <paper-dropdown-menu label="Matirial Status" name="mstatus" required >
+                    <paper-listbox class="dropdown-content" slot="dropdown-content" class="dropdown-content" slot="dropdown-content" attr-for-selected="value" selected="{{mstatus}}">
+                <paper-item value="Single">Single</paper-item>
+                <paper-item value="Married">Married</paper-item>
+                </paper-listbox>
+            </paper-dropdown-menu>
+
+            <paper-input type="text" name="phone" required label="Mobile Numer" value="{{mnumber}}" allowed-pattern="[0-9]" auto-validate error-message="Mobile number should be 10 digit" minlength="10" maxlength="10"></paper-input>
+            <paper-input type="email" name="email" required label="EMail" value="{{email}}" auto-validate error-message="Please enter a valid email"></paper-input>
+        </div>
+    </template>
+<script>
+
+class PersonalInfo extends Polymer.Element{
+
+    static get is() {return "personal-info"}
+}
+
+window.customElements.define(PersonalInfo.is, PersonalInfo);
+
+</script>
+</dom-module>

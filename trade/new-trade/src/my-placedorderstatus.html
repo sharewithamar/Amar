@@ -1,0 +1,100 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+
+
+<dom-module id='my-placedorderstatus'>
+    <template>
+        <div class="card table" >
+                <h1>Placed Order Status</h1>
+                <vaadin-grid items="{{employees}}" style="height:300px;">
+                  <vaadin-grid-selection-column frozen auto-select on-tap="onClicked"></vaadin-grid-selection-column>
+                  <vaadin-grid-column width="9em"  resizable>
+                     <template class="header">
+                         <vaadin-grid-sorter path="Symbol">Symbol</vaadin-grid-sorter>
+                     </template>
+                     <template>[[item.Symbol]]</template>
+                 </vaadin-grid-column>
+                 <vaadin-grid-column width="9em"  resizable>
+                     <template class="header">
+                         <vaadin-grid-sorter path="Type">Type</vaadin-grid-sorter>
+                     </template>
+                     <template>[[item.Type]]</template>
+                 </vaadin-grid-column>
+                 <vaadin-grid-column width="9em"  resizable>
+                     <template class="header">
+                         <vaadin-grid-sorter path="Quantity">Quantity</vaadin-grid-sorter>
+                     </template>
+                     <template>[[item.Quantity]]</template>
+                 </vaadin-grid-column>
+                 <vaadin-grid-column width="9em"  resizable>
+                     <template class="header">
+                         <vaadin-grid-sorter path="Price">Price</vaadin-grid-sorter>
+                     </template>
+                     <template>[[item.Price]]</template>
+                 </vaadin-grid-column>
+                 <vaadin-grid-column width="9em"  resizable>
+                     <template class="header">
+                         <vaadin-grid-sorter path="TotalAmount">TotalAmount</vaadin-grid-sorter>
+                     </template>
+                     <template>[[item.TotalAmount]]</template>
+                 </vaadin-grid-column>
+                 <vaadin-grid-column width="9em"  resizable>
+                     <template class="header">
+                         <vaadin-grid-sorter path="Status">Status</vaadin-grid-sorter>
+                     </template>
+                     <template>[[item.Status]]</template>
+                 </vaadin-grid-column>
+        
+                </vaadin-grid>
+             <!-- grid here -->
+           </div>
+        
+    </template>
+    <script>
+        class MyPlacedOrderStatus extends Polymer.Element{
+            static get is(){
+                return 'my-placedorderstatus';
+            }
+            static get properties() 
+      {
+        return {
+          employees: {
+            type: Array,
+            value: [{ 
+              "Symbol": "HCL",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5",
+              "Status": "Not started"
+            },{
+              "Symbol": "HCL",
+              "Type": "buy",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5",
+              "Status": "InProgress"
+            },  {
+              "Symbol": "Infosys",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5",
+              "Status": "Open"
+            },  {
+              "Symbol": "wipro",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5",
+              "Status": "Closed"
+            }]
+          }
+        }
+      }
+        }
+        window.customElements.define(MyPlacedOrderStatus.is, MyPlacedOrderStatus);
+    </script>
+</dom-module>

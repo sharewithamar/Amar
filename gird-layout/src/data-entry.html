@@ -1,0 +1,74 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="data-entry">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .submit{ background: #1B5E20; color: #fff}
+    .reset{ background: #FFCDD2}
+      .dataEntry{ margin-top: 65px !important;margin: 0px auto}
+      .card{ width: 30%}
+      .center{ margin:0px auto; width: 100%; float: none}
+    </style>
+  <div class="center">
+    <div class="card dataEntry">
+      <iron-form>
+
+          <paper-input type="text" name="fname" required label="First Name" value="{{firstname}}" auto-validate error-message="Please fill the Firstname"></paper-input>
+          <paper-input type="text" name="lname" required label="Last Name" value="{{lastname}}" auto-validate error-message="Please fill the Lastname"></paper-input>
+          <paper-input type="date" name="dob" required label="Date of Birth" value="{{dob}}"></paper-input>
+          <paper-input type="text" name="lname" required label="Door No and Street" value="{{street}}" auto-validate error-message="Please fill the Door No and Street"></paper-input>
+          <paper-input type="text" name="lname" required label="City" value="{{city}}" auto-validate error-message="Please fill the City"></paper-input>
+          <paper-input type="text" name="lname" required label="Pincode" value="{{pincode}}" allowed-pattern="[0-9]" auto-validate error-message="Please fill the Pincode and should be 6 digit" minlength="6" maxlength="6"></paper-input>
+          <paper-input type="text" name="phone" required label="Mobile Numer" value="{{mnumber}}" allowed-pattern="[0-9]" auto-validate error-message="Mobile number should be 10 digit" minlength="10" maxlength="10"></paper-input>
+          <paper-input type="text" name="phone" required label="Gross Salaryr" value="{{gross}}" allowed-pattern="[0-9]" auto-validate error-message="Please fill the Gross" minlength="3" maxlength="12"></paper-input>
+          <paper-input type="text" name="phone" required label="Net Salary" value="{{net}}" allowed-pattern="[0-9]" auto-validate error-message="Please fill the Net" minlength="3" maxlength="12"></paper-input>
+          <paper-button raised class="submit" on-click="submit">Submit</paper-button>
+      <paper-button raised class="reset">Reset</paper-button>
+
+      </iron-form>
+    </div>
+  </div>
+  </template>
+
+  <script>
+    class DataEntry extends Polymer.Element {
+      static get is() { return 'data-entry'; }
+      submit(){
+            var firstname = this.firstname;
+         
+
+            var taskcard = { 'firstname': firstname};
+
+// Put the object into storage
+
+            
+            if (typeof(Storage) !== "undefined") {
+   localStorage.setItem('taskcard', JSON.stringify(taskcard));
+   window.location.href="/task-page"
+} else {
+    alert("Sorry! No Web Storage support..")
+}
+    }
+    }
+    window.customElements.define(DataEntry.is, DataEntry);
+  </script>
+</dom-module>

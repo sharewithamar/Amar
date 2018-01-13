@@ -1,0 +1,194 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../bower_components/neon-animations/neon-animations.html">
+<link rel="import" href="../bower_components/paper-number-input/paper-number-input.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+
+
+
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-placeorder">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .paper-drop{ width: 100%}
+      .checkbox{ width: 100%}
+      .Quantity{ width:100%;text-align: left}
+      .Symbol{ width: 100%;}
+      .Price{ width: 100%;}
+      .submit{ background: darkkhaki; color: #fff}
+      paper-dropdown-menu{ width: 40% !important}
+      .form{ width: 30%; display: inline-block}
+      paper-dropdown-menu {
+    width: 100% !important;
+}
+.submit{ margin-top: 20px}
+.table{ width: 57%;
+    display: inline-block;}
+    </style>
+
+    <div class="card form">
+      <h1>Place Order</h1>
+     <iron-form>
+       <div class="checkbox">
+          <paper-radio-group selected="{{submitObj.Type}}" name="type" required>
+              <paper-radio-button name="sell">Sell</paper-radio-button>
+              <paper-radio-button name="buy">Buy</paper-radio-button>
+            </paper-radio-group>
+      
+    </div>
+    <div class="Symbol">
+        <paper-dropdown-menu label="Symbol" name="Symbol">
+            <paper-listbox class="dropdown-content" slot="dropdown-content" attr-for-selected="value" selected="{{submitObj.Symbol}}" required>
+        <paper-item value="Symbole1">Symbole1</paper-item>
+        <paper-item value="Symbol2">Symbol2</paper-item>
+        </paper-listbox>
+    </paper-dropdown-menu>
+    </div>
+    <div class="Symbol">
+        <paper-dropdown-menu label="User" name="user">
+            <paper-listbox class="dropdown-content" slot="dropdown-content" attr-for-selected="value" selected="{{submitObj.User}}" required>
+        <paper-item value="User1">User1</paper-item>
+        <paper-item value="User2">User2</paper-item>
+        </paper-listbox>
+    </paper-dropdown-menu>
+    </div>
+      <div class="Quantity">
+      <paper-input label="Quantity" value="{{submitObj.Quantity}}" class="Quantity" name="quantity" required auto-validate error-message="This filled required"></paper-input>
+ </div>
+ <div class="Price">
+      <paper-input label="Price"  value="{{submitObj.Price}}" name="price" required auto-validate error-message="This filled required"></paper-input>
+</div>
+<paper-button raised class="submit" id="submitdata" on-click="placeorder">Place Order</paper-button>
+
+     
+      
+
+     </iron-form>
+    </div>
+    <iron-ajax parms="{{submitObj}}" handle-response="_handleresponse"></iron-ajax>
+    <div class="card table" >
+        <h1>Order Status</h1>
+        <vaadin-grid items="{{employees}}" style="height:300px;">
+          <vaadin-grid-selection-column frozen auto-select on-tap="onClicked"></vaadin-grid-selection-column>
+          <vaadin-grid-column width="9em"  resizable>
+             <template class="header">
+                 <vaadin-grid-sorter path="Symbol">Symbol</vaadin-grid-sorter>
+             </template>
+             <template>[[item.Symbol]]</template>
+         </vaadin-grid-column>
+         <vaadin-grid-column width="9em"  resizable>
+             <template class="header">
+                 <vaadin-grid-sorter path="Type">Type</vaadin-grid-sorter>
+             </template>
+             <template>[[item.Type]]</template>
+         </vaadin-grid-column>
+         <vaadin-grid-column width="9em"  resizable>
+             <template class="header">
+                 <vaadin-grid-sorter path="Quantity">Quantity</vaadin-grid-sorter>
+             </template>
+             <template>[[item.Quantity]]</template>
+         </vaadin-grid-column>
+         <vaadin-grid-column width="9em"  resizable>
+             <template class="header">
+                 <vaadin-grid-sorter path="Price">Price</vaadin-grid-sorter>
+             </template>
+             <template>[[item.Price]]</template>
+         </vaadin-grid-column>
+         <vaadin-grid-column width="9em"  resizable>
+             <template class="header">
+                 <vaadin-grid-sorter path="TotalAmount">TotalAmount</vaadin-grid-sorter>
+             </template>
+             <template>[[item.TotalAmount]]</template>
+         </vaadin-grid-column>
+         <vaadin-grid-column width="9em"  resizable>
+             <template class="header">
+                 <vaadin-grid-sorter path="Status">Status</vaadin-grid-sorter>
+             </template>
+             <template>[[item.Status]]</template>
+         </vaadin-grid-column>
+
+        </vaadin-grid>
+     <!-- grid here -->
+   </div>
+
+
+    
+    
+  </template>
+  <script>
+    class MyPlaceorder extends Polymer.Element {
+      static get is() { return 'my-placeorder'; }
+      static get properties() 
+      {
+        return {
+          submitObj:{
+            type: Object,
+            value : {}
+          }, 
+          employees: {
+            type: Array,
+            value: [{ 
+              "Symbol": "HCL",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            },{
+              "Symbol": "HCL",
+              "Type": "buy",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            },  {
+              "Symbol": "Infosys",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            },  {
+              "Symbol": "wipro",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            }]
+          }
+        }
+      }
+      placeorder(e){
+        var dataModel = this.submitObj;
+        console.log(dataModel)
+        
+
+      }
+    }
+
+    window.customElements.define(MyPlaceorder.is, MyPlaceorder);
+  </script>
+</dom-module>

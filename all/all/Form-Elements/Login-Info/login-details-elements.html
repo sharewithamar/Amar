@@ -1,0 +1,32 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+
+
+<dom-module id="login-info">
+
+    <template>
+<style>
+
+    
+                        paper-input{ width: 49% !important; display: inline-block !important}
+                        
+      h3{ margin: 0px; color: #F9A825}
+      .login{ border: 1px solid #FFF59D; padding: 20px; margin-top: 20px}
+</style>
+<div class="login">
+        <h3>Login Details</h3>
+<paper-input type="text" name="uname" required label="Username" value="{{usname}}" allowed-pattern="[0-9a-zA-Z]" auto-validate error-message="Please fill the username"></paper-input>
+<paper-input type="password" name="pwd" required label="Password" value="{{pwd}}" allowed-pattern="[0-9a-zA-Z]" auto-validate error-message="Please fill the password"></paper-input>
+</div>
+    </template>
+<script>
+
+class LoginInfo extends Polymer.Element{
+
+    static get is() {return "login-info"}
+}
+
+window.customElements.define(LoginInfo.is, LoginInfo);
+
+</script>
+</dom-module>

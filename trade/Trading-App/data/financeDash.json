@@ -1,0 +1,30 @@
+{
+	"data": {
+		"stausData": [{
+				"Symbol": "HCL",
+				"Type": "Sell",
+				"Quantity": "20",
+				"Price": "34",
+				"TotalAmount": "5"
+			}, {
+				"Symbol": "HCL",
+				"Type": "buy",
+				"Quantity": "20",
+				"Price": "34",
+				"TotalAmount": "5"
+			},  {
+				"Symbol": "Infosys",
+				"Type": "Sell",
+				"Quantity": "20",
+				"Price": "34",
+				"TotalAmount": "5"
+			},  {
+				"Symbol": "wipro",
+				"Type": "Sell",
+				"Quantity": "20",
+				"Price": "34",
+				"TotalAmount": "5"
+			}
+			]
+		}
+}

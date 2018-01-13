@@ -1,0 +1,49 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/paper-styles/shadow.html">
+<link rel="import" href="../../../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+
+<dom-module id="account-info">
+
+        <template>
+                <style is="custom-style" include="demo-pages-shared-styles">
+    
+                        paper-dropdown-menu, paper-input{ width: 49% !important; display: inline-block !important}
+                        paper-listbox {
+        width: 250px;
+      }
+      paper-item{ width: 100%; float: left; padding:10px 0px 10px 5px}
+      paper-dropdown-menu {
+        margin: auto;
+        display: block;
+      }
+      h3{ margin: 0px; color: #FF6F00}
+      .account{ border: 1px solid #FFECB3; padding: 20px; margin-top: 20px}
+                        </style>
+                        <div class="account">
+                        <h3>Account Details</h3>
+                <paper-input type="text" name="anumber" required label="Account Number" value="{{anumber}}" allowed-pattern="[0-9]" auto-validate error-message="Account number should be 16 digit" minlength="16" maxlength="16"></paper-input>
+                
+                <paper-dropdown-menu label="Account Type" name="atype" required auto-validate error-message="Please select the account type">
+                        <paper-listbox class="dropdown-content" slot="dropdown-content" attr-for-selected="value" selected="{{atype}}">
+                    <paper-item value="Savings">Savings</paper-item>
+                    <paper-item value="Current">Current</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+    
+            </div>
+        </template>
+<script>
+
+class AccountInfo extends Polymer.Element{
+
+    static get is() {return "account-info"}
+}
+
+window.customElements.define(AccountInfo.is, AccountInfo);
+
+</script>
+</dom-module>

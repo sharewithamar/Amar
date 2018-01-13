@@ -1,0 +1,185 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../bower_components/paper-number-input/paper-number-input.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+
+
+
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-placeorder">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .paper-drop{ width: 100%}
+      .checkbox{ width: 100%}
+      .Quantity{ width:100%;text-align: left}
+      .Symbol{ width: 100%;}
+      .Price{ width: 100%;}
+      .submit{ background: darkkhaki; color: #fff}
+      paper-dropdown-menu{ width: 40% !important}
+      .form{ width: 30%; display: inline-block}
+      paper-dropdown-menu {
+    width: 100% !important;
+}
+.submit{ margin-top: 20px}
+.table{ width: 57%;
+    display: inline-block;}
+    .center{ text-align: center; margin: 0px auto}
+    .center .checkbox, .Price{ text-align: left !important}
+    </style>
+<div class="center">
+    <div class="card form">
+      <h1>Place Order</h1>
+     <iron-form id="ironform">
+       <div class="checkbox">
+          <paper-radio-group selected="{{submitObj.Type}}" id="radio" name="type" required attr-for-selected="value"> 
+              
+            <paper-radio-button name="sell" value="sell">Sell</paper-radio-button>
+              <paper-radio-button name="buy" value="buy">Buy</paper-radio-button>
+            </paper-radio-group>
+      <div class="errormsg">{{error}}</div>
+    </div>
+    
+
+    <div class="Symbol" >
+        <paper-dropdown-menu label="Symbol" name="Symbol" id="drop">
+            <paper-listbox class="dropdown-content" slot="dropdown-content" attr-for-selected="value" selected="{{submitObj.Symbol}}" required>
+        <paper-item value="Symbole1">Symbole1</paper-item>
+        <paper-item value="Symbol2">Symbol2</paper-item>
+        </paper-listbox>
+    </paper-dropdown-menu>
+    </div>
+    <div class="Symbol">
+        <paper-dropdown-menu label="User" name="user">
+            <paper-listbox class="dropdown-content" slot="dropdown-content" attr-for-selected="value" selected="{{submitObj.User}}" required>
+              <paper-item value="User1">User1</paper-item>
+              <paper-item value="User2">User2</paper-item>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </div>
+      <div class="Quantity">
+          <paper-input label="Quantity" allowed-pattern="[0-9]" min="1" value="{{submitObj.Quantity}}" class="Quantity" name="quantity" required auto-validate error-message="This filled required"></paper-input>
+      </div>
+     
+      <div class="Price">
+            <paper-input label="Price" allowed-pattern="[0-9]"  value="{{submitObj.Price}}" name="price" id="price"></paper-input>
+            <div class="errormsg">{{error}}</div>
+          </div>
+      <paper-button raised class="submit" id="submitdata" on-click="placeorder">Place Order</paper-button>
+     </iron-form>
+    </div>
+  </div>
+    <iron-ajax parms="{{submitObj}}" handle-response="_handleresponse"></iron-ajax>
+    
+
+    
+    
+  </template>
+  <script>
+    class MyPlaceorder extends Polymer.Element {
+      static get is() { return 'my-placeorder'; }
+     
+     
+
+      
+
+      validate() {
+        
+        var che = this.$.radio.selected
+        var drop = this.$.drop.Symbol
+        console.log(drop)
+        var price = this.$.price.value
+        if(che==undefined)
+        {
+          this.Radioerror = this.$.errormsg;
+          this.Radioerror ="Please Select the type"
+        }else
+        {this.error =""}
+        if(price==0)
+        {
+          this.error = this.$.errormsg;
+          this.error ="price should not be 0"
+        }else
+        {this.error =""}
+       
+        
+      }
+        
+      
+      
+      
+   
+      static get properties() 
+      {
+        return {
+          submitObj:{
+            type: Object,
+            value : {}
+          }, 
+          employees: {
+            type: Array,
+            value: [{ 
+              "Symbol": "HCL",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            },{
+              "Symbol": "HCL",
+              "Type": "buy",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            },  {
+              "Symbol": "Infosys",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            },  {
+              "Symbol": "wipro",
+              "Type": "Sell",
+              "Quantity": "20",
+              "Price": "34",
+              "TotalAmount": "5"
+            }]
+          }
+        }
+      }
+ 
+      placeorder(e){
+        var dataModel = this.submitObj;
+        
+        
+
+      }
+    }
+
+    window.customElements.define(MyPlaceorder.is, MyPlaceorder);
+  </script>
+</dom-module>
